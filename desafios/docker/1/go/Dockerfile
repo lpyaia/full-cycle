@@ -1,13 +1,15 @@
-FROM golang:1.18
+FROM golang:1.18-alpine AS builder
 
 WORKDIR /app
 
-COPY go.mod .
+RUN go mod init hello
+RUN go mod download && go mod verify
 
-RUN go mod download
-
-COPY *.go .
+COPY . .
 
 RUN go build hello.go
 
+FROM scratch
+WORKDIR /app
+COPY --from=builder /app .
 CMD [ "./hello" ]
