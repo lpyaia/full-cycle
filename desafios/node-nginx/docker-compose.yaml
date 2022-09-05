@@ -37,6 +37,8 @@ services:
             - desafio-node-network
         ports:
             - "8080:80"
+        depends_on:
+            - desafio-node-app
 
 networks:
     desafio-node-network:
